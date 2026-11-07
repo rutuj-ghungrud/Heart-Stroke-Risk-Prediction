@@ -1,0 +1,387 @@
+:root {
+  color-scheme: light;
+  --ink: #18314a;
+  --muted: #687b8e;
+  --line: #dfe7ee;
+  --blue: #176b87;
+  --blue-dark: #10556d;
+  --paper: #ffffff;
+  --page: #f5f8fc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 50% -20%, #e5f3f5 0, transparent 52%),
+    var(--page);
+  color: var(--ink);
+  font-family: "DM Sans", "Segoe UI", sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.page-shell {
+  width: min(100% - 36px, 920px);
+  margin: 0 auto;
+}
+
+.topbar {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(24, 49, 74, 0.08);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font: 800 19px "Manrope", "Segoe UI", sans-serif;
+  text-decoration: none;
+  letter-spacing: -0.7px;
+}
+
+.brand-mark {
+  display: grid;
+  width: 31px;
+  height: 31px;
+  place-items: center;
+  border-radius: 10px;
+  background: #d9edf0;
+  color: var(--blue);
+  font-size: 23px;
+  line-height: 1;
+}
+
+.brand-light {
+  color: var(--blue);
+}
+
+.topbar-note,
+.required-note {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.intro {
+  max-width: 650px;
+  margin: 57px auto 30px;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1,
+.form-heading h2 {
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  letter-spacing: -1.1px;
+}
+
+h1 {
+  margin-bottom: 10px;
+  font-size: clamp(30px, 5vw, 42px);
+  line-height: 1.15;
+}
+
+.intro-copy {
+  max-width: 550px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.form-card {
+  padding: 34px 38px 30px;
+  border: 1px solid #e7edf2;
+  border-radius: 16px;
+  background: var(--paper);
+  box-shadow: 0 14px 44px rgba(37, 65, 88, 0.07);
+}
+
+.form-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+
+.form-heading .eyebrow {
+  margin-bottom: 4px;
+}
+
+.form-heading h2 {
+  margin-bottom: 0;
+  font-size: 22px;
+}
+
+.required-note .required,
+.required {
+  color: #c04f58;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 20px;
+}
+
+.field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+  color: #2a435a;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  min-height: 45px;
+  padding: 0 12px;
+  border: 1px solid #d6e0e8;
+  border-radius: 7px;
+  outline: none;
+  background: #fff;
+  color: var(--ink);
+  font: 400 14px "DM Sans", "Segoe UI", sans-serif;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.field input::placeholder {
+  color: #9aa9b7;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: #3891a8;
+  box-shadow: 0 0 0 3px rgba(56, 145, 168, 0.13);
+}
+
+.field small {
+  min-height: 18px;
+  color: #7e8e9d;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 30px;
+  padding-top: 23px;
+  border-top: 1px solid #edf1f4;
+}
+
+.form-footer p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.lock-icon {
+  margin-right: 5px;
+  color: #4e8990;
+  font-size: 10px;
+}
+
+button {
+  min-height: 46px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--blue);
+  color: #fff;
+  cursor: pointer;
+  font: 700 14px "DM Sans", "Segoe UI", sans-serif;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  background: var(--blue-dark);
+}
+
+button:focus-visible {
+  outline: 3px solid rgba(56, 145, 168, 0.35);
+  outline-offset: 3px;
+}
+
+button span {
+  margin-left: 7px;
+  font-size: 17px;
+}
+
+.result-card,
+.error-card,
+.disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0 0 20px;
+  padding: 17px 20px;
+  border: 1px solid;
+  border-radius: 11px;
+}
+
+.result-low {
+  border-color: #c9e5dd;
+  background: #f1faf6;
+}
+
+.result-high {
+  border-color: #efd3c8;
+  background: #fff6f1;
+}
+
+.result-icon,
+.disclaimer-mark {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  place-items: center;
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.result-low .result-icon {
+  background: #d9f0e5;
+  color: #22734f;
+}
+
+.result-high .result-icon {
+  background: #f9e1d6;
+  color: #aa5035;
+}
+
+.result-card h2 {
+  margin: 1px 0 3px;
+  font: 700 17px "Manrope", "Segoe UI", sans-serif;
+}
+
+.result-card p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.result-card .result-kicker {
+  margin-bottom: 2px;
+  color: #687b8e;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.error-card {
+  display: block;
+  border-color: #f0c9c5;
+  background: #fff5f4;
+  color: #8d3831;
+  font-size: 13px;
+}
+
+.error-card ul {
+  margin: 5px 0 0;
+  padding-left: 19px;
+}
+
+.disclaimer {
+  margin: 19px 0 0;
+  border-color: #dce8ec;
+  background: #edf5f7;
+}
+
+.disclaimer-mark {
+  background: #d8e9ed;
+  color: var(--blue);
+  font-family: Georgia, serif;
+  font-style: italic;
+}
+
+.disclaimer p {
+  margin: 0;
+  color: #607487;
+  font-size: 12px;
+}
+
+.disclaimer strong {
+  color: #38586e;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 23px 0 30px;
+  color: #8b9aa8;
+  font-size: 11px;
+}
+
+@media (max-width: 620px) {
+  .page-shell {
+    width: min(100% - 24px, 920px);
+  }
+
+  .topbar {
+    min-height: 66px;
+  }
+
+  .topbar-note {
+    max-width: 140px;
+    text-align: right;
+  }
+
+  .intro {
+    margin: 42px auto 24px;
+  }
+
+  .form-card {
+    padding: 25px 20px 22px;
+  }
+
+  .field-grid {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  .field small {
+    min-height: auto;
+  }
+
+  .form-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .form-footer button {
+    width: 100%;
+  }
+
+  .footer {
+    font-size: 10px;
+  }
+}
