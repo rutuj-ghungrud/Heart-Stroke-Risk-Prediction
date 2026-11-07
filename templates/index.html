@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f8fc">
+  <title>Heart health check</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="{{ url_for('index') }}" aria-label="Heart health check home">
+        <span class="brand-mark" aria-hidden="true">+</span>
+        <span>Heart<span class="brand-light">wise</span></span>
+      </a>
+      <span class="topbar-note">A personal health screening tool</span>
+    </header>
+
+    <section class="intro">
+      <p class="eyebrow">HEART HEALTH CHECK</p>
+      <h1>Understand your heart health.</h1>
+      <p class="intro-copy">
+        Share a few health details to see what the heart disease prediction model suggests.
+        Your information is only used for this prediction.
+      </p>
+    </section>
+
+    {% if result %}
+      <section class="result-card {{ 'result-high' if result.has_condition else 'result-low' }}" aria-live="polite">
+        <div class="result-icon" aria-hidden="true">{{ '!' if result.has_condition else '✓' }}</div>
+        <div>
+          <p class="result-kicker">YOUR MODEL RESULT</p>
+          <h2>{{ result.label }}</h2>
+          <p>This is an estimate from a machine-learning model, not a diagnosis.</p>
+        </div>
+      </section>
+    {% endif %}
+
+    {% if errors %}
+      <section class="error-card" role="alert">
+        <strong>Please check your entries:</strong>
+        <ul>
+          {% for error in errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+
+    <form class="form-card" method="post" action="{{ url_for('index') }}">
+      <div class="form-heading">
+        <div>
+          <p class="eyebrow">YOUR DETAILS</p>
+          <h2>Tell us about yourself</h2>
+        </div>
+        <span class="required-note"><span aria-hidden="true">*</span> Required fields</span>
+      </div>
+
+      <div class="field-grid">
+        <label class="field">
+          <span>Age <span class="required" aria-hidden="true">*</span></span>
+          <input name="age" type="number" min="1" max="120" step="1" placeholder="e.g. 45" value="{{ submitted.get('age', '') }}" required>
+          <small>In years</small>
+        </label>
+
+        <label class="field">
+          <span>Sex <span class="required" aria-hidden="true">*</span></span>
+          <select name="sex" required>
+            <option value="" disabled {{ 'selected' if not submitted.get('sex') else '' }}>Select an option</option>
+            {% for value in categories['Sex'] %}
+              <option value="{{ value }}" {{ 'selected' if submitted.get('sex') == value else '' }}>{{ value }}</option>
+            {% endfor %}
+          </select>
+          <small>As represented in the training dataset</small>
+        </label>
+
+        <label class="field">
+          <span>Chest pain type <span class="required" aria-hidden="true">*</span></span>
+          <select name="chestpaintype" required>
+            <option value="" disabled {{ 'selected' if not submitted.get('chestpaintype') else '' }}>Select an option</option>
+            {% for value in categories['ChestPainType'] %}
+              <option value="{{ value }}" {{ 'selected' if submitted.get('chestpaintype') == value else '' }}>{{ value }}</option>
+            {% endfor %}
+          </select>
+          <small>Use the category provided by your clinician</small>
+        </label>
+
+        <label class="field">
+          <span>Resting blood pressure <span class="required" aria-hidden="true">*</span></span>
+          <input name="resting_bp" type="number" min="50" max="250" step="1" placeholder="e.g. 120" value="{{ submitted.get('resting_bp', '') }}" required>
+          <small>mm Hg</small>
+        </label>
+
+        <label class="field">
+          <span>Cholesterol <span class="required" aria-hidden="true">*</span></span>
+          <input name="cholesterol" type="number" min="50" max="700" step="1" placeholder="e.g. 200" value="{{ submitted.get('cholesterol', '') }}" required>
+          <small>mg/dL</small>
+        </label>
+
+        <label class="field">
+          <span>Fasting blood sugar above 120 mg/dL? <span class="required" aria-hidden="true">*</span></span>
+          <select name="fasting_bs" required>
+            <option value="" disabled {{ 'selected' if submitted.get('fasting_bs') not in ['0', '1'] else '' }}>Select an option</option>
+            <option value="0" {{ 'selected' if submitted.get('fasting_bs') == '0' else '' }}>No</option>
+            <option value="1" {{ 'selected' if submitted.get('fasting_bs') == '1' else '' }}>Yes</option>
+          </select>
+          <small>Based on a fasting blood sugar test</small>
+        </label>
+
+        <label class="field">
+          <span>Resting ECG <span class="required" aria-hidden="true">*</span></span>
+          <select name="restingecg" required>
+            <option value="" disabled {{ 'selected' if not submitted.get('restingecg') else '' }}>Select an option</option>
+            {% for value in categories['RestingECG'] %}
+              <option value="{{ value }}" {{ 'selected' if submitted.get('restingecg') == value else '' }}>{{ value }}</option>
+            {% endfor %}
+          </select>
+          <small>Resting electrocardiogram result</small>
+        </label>
+
+        <label class="field">
+          <span>Maximum heart rate <span class="required" aria-hidden="true">*</span></span>
+          <input name="max_hr" type="number" min="40" max="250" step="1" placeholder="e.g. 150" value="{{ submitted.get('max_hr', '') }}" required>
+          <small>Beats per minute</small>
+        </label>
+
+        <label class="field">
+          <span>Exercise-related angina <span class="required" aria-hidden="true">*</span></span>
+          <select name="exerciseangina" required>
+            <option value="" disabled {{ 'selected' if not submitted.get('exerciseangina') else '' }}>Select an option</option>
+            {% for value in categories['ExerciseAngina'] %}
+              <option value="{{ value }}" {{ 'selected' if submitted.get('exerciseangina') == value else '' }}>{{ 'Yes' if value == 'Y' else 'No' }}</option>
+            {% endfor %}
+          </select>
+          <small>Chest pain or discomfort during exercise</small>
+        </label>
+
+        <label class="field">
+          <span>ST depression (Oldpeak) <span class="required" aria-hidden="true">*</span></span>
+          <input name="oldpeak" type="number" min="-3" max="10" step="1" placeholder="e.g. 1" value="{{ submitted.get('oldpeak', '') }}" required>
+          <small>Use the whole-number value from your test</small>
+        </label>
+
+        <label class="field">
+          <span>ST slope <span class="required" aria-hidden="true">*</span></span>
+          <select name="st_slope" required>
+            <option value="" disabled {{ 'selected' if not submitted.get('st_slope') else '' }}>Select an option</option>
+            {% for value in categories['ST_Slope'] %}
+              <option value="{{ value }}" {{ 'selected' if submitted.get('st_slope') == value else '' }}>{{ value }}</option>
+            {% endfor %}
+          </select>
+          <small>As reported by your ECG test</small>
+        </label>
+      </div>
+
+      <div class="form-footer">
+        <p><span class="lock-icon" aria-hidden="true">◆</span> Your entries are not saved.</p>
+        <button type="submit">Check my result <span aria-hidden="true">→</span></button>
+      </div>
+    </form>
+
+    <aside class="disclaimer">
+      <span class="disclaimer-mark" aria-hidden="true">i</span>
+      <p><strong>For information only.</strong> This tool is based on a machine-learning model trained on a limited dataset. It cannot diagnose heart disease or replace a healthcare professional. If you have concerns or symptoms, contact a qualified medical professional.</p>
+    </aside>
+
+
+  </main>
+</body>
+</html>
